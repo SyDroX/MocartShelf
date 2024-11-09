@@ -7,10 +7,10 @@ namespace WebRequests
     {
         public static async Task<Product[]> Get()
         {
-            string    response = await GetAsync($"Products");
-            Product[] products = JsonConvert.DeserializeObject<Product[]>(response);
+            string    response = await GetAsync("Products");
+            var productsArray = JsonConvert.DeserializeObject<ProductsArray>(response);
 
-            return products;
+            return productsArray.Products;
         }
     }
 }

@@ -1124,9 +1124,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 110324251c3965a4baecb9ed9d7b461e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _initialPosition: {x: -3.35, y: 1, z: -0.5}
+  _initialPosition: {x: -3.35, y: 1.5, z: -0.5}
   _offsetX: 3.35
-  _rotationSpeed: 1
+  _rotationSpeed: 25
   _productPrefabs:
   - {fileID: 4008610799542497148, guid: 54545446ea7bb1d49a60e927b5cc5fe6, type: 3}
   - {fileID: 7823310272705202865, guid: 738b5a9777fd2fb4fb52c057138df7fc, type: 3}

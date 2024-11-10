@@ -8,20 +8,20 @@ public class ProductDisplayer : MonoBehaviour
 {
     private IDisposable   _receiver;
     private List<Product> _shownProducts = new();
-    
+
     [SerializeField] private Vector3 _initialPosition;
     [SerializeField] private float   _offsetX;
-    
+
     private void OnEnable()
     {
         _receiver = MessageBroker.Default.Receive<List<Product>>().ObserveOnMainThread().Subscribe(OnProductsReceived);
     }
-    
+
     private void OnDisable()
     {
         _receiver.Dispose();
     }
-    
+
     private void OnProductsReceived(List<Product> products)
     {
         _shownProducts.ForEach(sp => sp.GameObject.SetActive(false));

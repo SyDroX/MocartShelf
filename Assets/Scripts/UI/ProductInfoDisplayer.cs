@@ -11,9 +11,9 @@ namespace UI
     {
         private IDisposable _receiver;
 
-        [SerializeField] private TMP_Text _name;
-        [SerializeField] private TMP_Text _price;
-        [SerializeField] private TMP_Text _description;
+        [SerializeField] private TMP_Text _nameText;
+        [SerializeField] private TMP_Text _priceText;
+        [SerializeField] private TMP_Text _descriptionText;
 
         private void OnEnable()
         {
@@ -27,9 +27,9 @@ namespace UI
         
         private void OnDisplayProductInfo(ProductInfo productInfo)
         {
-            _name.text        = productInfo.Name;
-            _description.text = productInfo.Description;
-            _price.text       = productInfo.Price.ToString(CultureInfo.InvariantCulture);
+            _nameText.text        = productInfo.Name;
+            _descriptionText.text = productInfo.Description;
+            _priceText.text       = productInfo.Price.ToString(CultureInfo.InvariantCulture);
         }
     }
 }

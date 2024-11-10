@@ -25,8 +25,10 @@ namespace WebRequests
 
         private static async Task<string> HandleResponseAsync(HttpResponseMessage httpResponseMessage)
         {
-            // TODO: figure out what to return on error
-            if (httpResponseMessage.StatusCode != HttpStatusCode.OK) return string.Empty;
+            if (httpResponseMessage.StatusCode != HttpStatusCode.OK)
+            {
+                throw new HttpRequestException(httpResponseMessage.StatusCode + " - " + httpResponseMessage.Content);
+            }
 
             await using Stream responseStream = await httpResponseMessage.Content.ReadAsStreamAsync();
             using var          streamReader   = new StreamReader(responseStream);

@@ -9,10 +9,10 @@ namespace WebRequests
         [Serializable]
         private class ProductsArray
         {
-            public Product[] Products;
+            public ProductInfo[] Products;
         }
 
-        public static async Task<Product[]> Get()
+        public static async Task<ProductInfo[]> Get()
         {
             string response      = await GetAsync("Products");
             var    productsArray = JsonConvert.DeserializeObject<ProductsArray>(response);

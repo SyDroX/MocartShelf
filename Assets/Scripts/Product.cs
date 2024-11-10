@@ -1,9 +1,7 @@
-using System;
+﻿using UnityEngine;
 
-[Serializable]
 public class Product
 {
-    public string Name;
-    public string Description;
-    public float  Price;
+    public GameObject  GameObject;
+    public ProductInfo ProductInfo;
 }

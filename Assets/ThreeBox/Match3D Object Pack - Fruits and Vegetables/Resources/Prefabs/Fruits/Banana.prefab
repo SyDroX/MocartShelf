@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7483341640500924427}
   - component: {fileID: 5797804010597343150}
   - component: {fileID: 8615675595787709284}
+  - component: {fileID: 5203279263475949281}
   m_Layer: 0
   m_Name: Banana
   m_TagString: Untagged
@@ -83,3 +84,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &5203279263475949281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7823310272705202865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2da9d335b4947749a4a797646c19011, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rotationSpeed: 25

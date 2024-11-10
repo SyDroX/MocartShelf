@@ -18,5 +18,12 @@ namespace WebRequests
         {
             SharedClient = new HttpClient();
         }
+
+#if !UNITY_EDITOR
+        ~HttpClientHandler()
+        {
+             SharedClient.Dispose();
+        }
+#endif
     }
 }

@@ -1,5 +1,6 @@
 using Entities;
 using UniRx;
+using UnityEditor;
 using UnityEngine;
 
 public class ProductPool : MonoBehaviour
@@ -20,7 +21,13 @@ public class ProductPool : MonoBehaviour
 
         for (var index = 0; index < _productPrefabs.Length; index++)
         {
-            productsPool[index] = new Product { GameObject = Instantiate(_productPrefabs[index], productPoolRoot) };
+            GameObject productInstance = Instantiate(_productPrefabs[index],productPoolRoot);
+            productsPool[index] = new Product
+            {
+                GameObject  = productInstance,
+                Highlighter = productInstance.GetComponent<Light>()
+            };
+            
             productsPool[index].GameObject.SetActive(false);
         }
 

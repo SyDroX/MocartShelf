@@ -40,13 +40,13 @@ namespace UI
 
         private void OnLeft()
         {
-            _selectedIndex -= 1 % _products.Count;
+            _selectedIndex = (_selectedIndex - 1 + _products.Count) % _products.Count;
             MessageBroker.Default.Publish(_products[_selectedIndex].ProductInfo);
         }
 
         private void OnRight()
         {
-            _selectedIndex += 1 % _products.Count;
+            _selectedIndex = (_selectedIndex + 1) % _products.Count;
             MessageBroker.Default.Publish(_products[_selectedIndex].ProductInfo);
         }
 

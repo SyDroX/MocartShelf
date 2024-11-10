@@ -1,40 +1,28 @@
-using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 
 public class ProductPool : MonoBehaviour
 {
-    [SerializeField] private Vector3      _initialPosition;
-    [SerializeField] private float        _offsetX;
     [SerializeField] private GameObject[] _productPrefabs;
 
-    private GameObject[] _productsPool;
-    private List<int>    _spawnedProductIndexes;
-
-    private void Awake()
+    private void Start()
     {
-        _spawnedProductIndexes = new List<int>();
+        // Show Loading 
         InstantiateProductsPool();
-        SpawnProducts();
-    }
-
-    public async void SpawnProducts()
-    {
-        _spawnedProductIndexes.Clear();
-
-        foreach (GameObject product in _productsPool)
-        {
-            product.SetActive(false);
-        }
+        // Hide Loading 
     }
 
     private void InstantiateProductsPool()
     {
-        _productsPool = new GameObject[_productPrefabs.Length];
+        var       productsPool    = new Product[_productPrefabs.Length];
         Transform productPoolRoot = new GameObject("ProductPool").transform;
 
-        for (var i = 0; i < _productPrefabs.Length; i++)
+        for (var index = 0; index < _productPrefabs.Length; index++)
         {
-            _productsPool[i] = Instantiate(_productPrefabs[i], productPoolRoot);
+            productsPool[index] = new Product { GameObject = Instantiate(_productPrefabs[index], productPoolRoot) };
+            productsPool[index].GameObject.SetActive(false);
         }
+
+        MessageBroker.Default.Publish(productsPool);
     }
 }

@@ -12,35 +12,35 @@ namespace UI
         private IDisposable _receiver;
         private Product _productToEdit;
         
-        [SerializeField] private TMP_InputField _name;
-        [SerializeField] private TMP_InputField _description;
-        [SerializeField] private TMP_InputField _price;
-        [SerializeField] private Button         _save;
-        [SerializeField] private Button         _cancel;
+        [SerializeField] private TMP_InputField _nameInputField;
+        [SerializeField] private TMP_InputField _priceInputField;
+        [SerializeField] private TMP_InputField _descriptionInputField;
+        [SerializeField] private Button         _saveButton;
+        [SerializeField] private Button         _cancelbButton;
 
         private void OnEnable()
         {
-            _save.onClick.AddListener(OnSave);
-            _cancel.onClick.AddListener(OnCancel);
+            _saveButton.onClick.AddListener(OnSaveClick);
+            _cancelbButton.onClick.AddListener(OnCancelClick);
             _receiver = MessageBroker.Default.Receive<Product>().ObserveOnMainThread().Subscribe(OnEditProduct);
         }
 
         private void OnDisable()
         {
             _receiver.Dispose();
-            _save.onClick.RemoveListener(OnSave);
-            _cancel.onClick.RemoveListener(OnCancel);
+            _saveButton.onClick.RemoveListener(OnSaveClick);
+            _cancelbButton.onClick.RemoveListener(OnCancelClick);
         }
 
-        private void OnSave()
+        private void OnSaveClick()
         {
             // Send save event
-            _productToEdit.ProductInfo.Description = _description.text;
-            _productToEdit.ProductInfo.Price = decimal.Parse(_price.text);
-            _productToEdit.ProductInfo.Name = _name.text;
+            _productToEdit.ProductInfo.Description = _descriptionInputField.text;
+            _productToEdit.ProductInfo.Price = decimal.Parse(_priceInputField.text);
+            _productToEdit.ProductInfo.Name = _nameInputField.text;
         }
 
-        private void OnCancel()
+        private void OnCancelClick()
         {
             // Send cancel event
         }

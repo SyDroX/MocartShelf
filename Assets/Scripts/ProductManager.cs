@@ -1,24 +1,43 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 using WebRequests;
 
 public class ProductManager : MonoBehaviour
 {
-    private Dictionary<int, Product> _products;
-    private GameObject[] _productGameObjects;
+    private IDisposable _receiver;
+    private Product[]   _products;
+    private List<Product> _loadedProducts = new();
     
+    private void OnEnable()
+    {
+        _receiver = MessageBroker.Default.Receive<Product[]>().ObserveOnMainThread().Subscribe(OnProductPoolCreated);
+    }
+
+    private void OnDisable()
+    {
+        _receiver.Dispose();
+    }
+
     private void Start()
     {
         LoadProducts();
     }
 
-    private void TryAddProduct(ProductInfo product)
+    private void OnProductPoolCreated(Product[] products)
     {
-        if (int.TryParse(product.Name.Split(' ')[1], out int productIndex))
+        _products = products;
+    }
+    
+    private void TryAddProduct(ProductInfo productInfo)
+    {
+        if (int.TryParse(productInfo.Name.Split(' ')[1], out int productIndex))
         {
             // Convert from displayed to zero based array
-            productIndex -= 1;
-            
+            productIndex                        -=  1;
+            _products[productIndex].ProductInfo ??= productInfo;
+            _loadedProducts.Add(_products[productIndex]);
         }
         else
         {
@@ -28,12 +47,18 @@ public class ProductManager : MonoBehaviour
     
     public async void LoadProducts()
     {
+        // Show Loading
         // TODO: error handling
-        ProductInfo[] products = await ProductHandler.Get();
+        ProductInfo[] productInfos = await ProductHandler.Get();
         
-        for (var i = 0; i < products.Length; i++)
+        _loadedProducts.Clear();
+        
+        foreach (ProductInfo productInfo in productInfos)
         {
-            
+            TryAddProduct(productInfo);
         }
+        
+        MessageBroker.Default.Publish(_loadedProducts);
+        // Hide Loading
     }
 }

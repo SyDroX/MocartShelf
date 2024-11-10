@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 6637017238279483558}
   - component: {fileID: 8455692169098505048}
   - component: {fileID: 4816367298019900342}
-  - component: {fileID: 2457188251794157890}
   m_Layer: 0
   m_Name: Cabbage Graphic
   m_TagString: Untagged
@@ -84,19 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &2457188251794157890
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 531063853355602328}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2da9d335b4947749a4a797646c19011, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _rotationSpeed: 25
 --- !u!1 &6529588175851861070
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Entities;
 using Newtonsoft.Json;
 
 namespace WebRequests

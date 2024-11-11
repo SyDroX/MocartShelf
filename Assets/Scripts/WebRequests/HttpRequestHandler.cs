@@ -1,4 +1,4 @@
-using System.IO;
+/*using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -31,5 +31,25 @@ namespace WebRequests
 
             return await HandleResponseAsync(httpResponseMessage);
         }
+        
+        private static string HandleResponse(HttpResponseMessage httpResponseMessage)
+        {
+            if (httpResponseMessage.StatusCode != HttpStatusCode.OK)
+            {
+                throw new HttpRequestException(httpResponseMessage.StatusCode + " - " + httpResponseMessage.Content);
+            }
+
+            using Stream responseStream = httpResponseMessage.Content.ReadAsStreamAsync().Result;
+            using var    streamReader   = new StreamReader(responseStream);
+
+            return streamReader.ReadToEnd();
+        }
+        
+        protected static string Get(string requestUri)
+        {
+            using HttpResponseMessage httpResponseMessage = SharedClient.GetAsync(string.Concat(MocartUri, requestUri)).Result;
+
+            return HandleResponse(httpResponseMessage);
+        }
     }
-}
+}*/

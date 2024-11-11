@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using System.Threading.Tasks;
 using Entities;
 using Newtonsoft.Json;
@@ -13,9 +13,9 @@ namespace WebRequests
             public ProductInfo[] Products;
         }
 
-        public static async Task<ProductInfo[]> Get()
+        public static ProductInfo[] Get()
         {
-            string response      = await GetAsync("Products");
+            string response      = Get("Products");
             var    productsArray = JsonConvert.DeserializeObject<ProductsArray>(response);
 
             if (productsArray.Products == null)
@@ -26,4 +26,4 @@ namespace WebRequests
             return productsArray.Products;
         }
     }
-}
+}*/

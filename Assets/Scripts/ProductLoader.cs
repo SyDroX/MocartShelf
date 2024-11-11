@@ -1,15 +1,18 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Net.Http;
 using Entities;
 using EventData;
 using Newtonsoft.Json;
 using UniRx;
 using UnityEngine;
-using WebRequests;
+using UnityEngine.Networking;
+/*using WebRequests;*/
 
 public class ProductLoader : MonoBehaviour
 {
+    private const string ApiUri = "https://homework.mocart.io/api/products";
+    
     private IDisposable   _receiver;
     private Product[]     _products;
     private List<Product> _loadedProducts = new();
@@ -46,20 +49,100 @@ public class ProductLoader : MonoBehaviour
         }
     }
 
-    public async void LoadProducts()
+    [Serializable]
+    private class ProductsArray
+    {
+        public ProductInfo[] Products;
+    }
+
+    private IEnumerator Load(string uri)
     {
         MessageBroker.Default.Publish(new LoadingPanelEventArgs { Enabled = true });
+    
+        // I know this implementation isn't great, I had to scrap my httpclient handler due to lack of support in webGL last moment.
+        // Had I known this from the start I'd use UniRX's implementation for this
+        // https://www.gokhand.com/blog/using-unirx-to-perform-web-requests-in-unity
+        using UnityWebRequest webRequest = UnityWebRequest.Get(uri);
 
+        yield return webRequest.SendWebRequest();
+
+        string[] pages = uri.Split('/');
+        int      page  = pages.Length - 1;
+        
+        switch (webRequest.result)
+        {
+            case UnityWebRequest.Result.ConnectionError:
+            case UnityWebRequest.Result.DataProcessingError:
+                Debug.LogError(pages[page] + ": Error: " + webRequest.error);
+                MessageBroker.Default.Publish(new MessageEventArgs
+                {
+                    Message     = "Error getting products!",
+                    MessageType = MessageType.Error
+                });
+                break;
+            case UnityWebRequest.Result.ProtocolError:
+                Debug.LogError(pages[page] + ": HTTP Error: " + webRequest.error);
+                MessageBroker.Default.Publish(new MessageEventArgs
+                {
+                    Message     = "Error getting products!",
+                    MessageType = MessageType.Error
+                });
+                break;
+        }
+        
         try
         {
-            ProductInfo[] productInfos = await ProductHandler.Get();
+            var productsArray = JsonConvert.DeserializeObject<ProductsArray>(webRequest.downloadHandler.text);
+
+            ProductInfo[] productInfos = productsArray.Products;
             _loadedProducts.Clear();
 
             foreach (ProductInfo productInfo in productInfos)
             {
                 TryAddProduct(productInfo);
             }
-            
+
+            MessageBroker.Default.Publish(new LoadedProductsEventArgs { LoadedProducts = _loadedProducts });
+        }
+        catch (JsonException jsonException)
+        {
+            MessageBroker.Default.Publish(new MessageEventArgs
+            {
+                Message     = "Error reading products!",
+                MessageType = MessageType.Error
+            });
+            Debug.LogError(jsonException.Message + "\n" + jsonException.StackTrace);
+        }
+        catch (Exception exception)
+        {
+            MessageBroker.Default.Publish(new MessageEventArgs
+            {
+                Message     = "Unknown Error!",
+                MessageType = MessageType.Error
+            });
+            Debug.LogError(exception.Message + "\n" + exception.StackTrace);
+        }
+        finally
+        {
+            MessageBroker.Default.Publish(new LoadingPanelEventArgs { Enabled = false });
+        }
+    }
+
+    public void LoadProducts()
+    {
+        StartCoroutine(Load(ApiUri));
+        /*MessageBroker.Default.Publish(new LoadingPanelEventArgs { Enabled = true });
+
+        try
+        {
+            ProductInfo[] productInfos = ProductHandler.Get();
+            _loadedProducts.Clear();
+
+            foreach (ProductInfo productInfo in productInfos)
+            {
+                TryAddProduct(productInfo);
+            }
+
             MessageBroker.Default.Publish(new LoadedProductsEventArgs { LoadedProducts = _loadedProducts });
         }
         catch (HttpRequestException httpRequestException)
@@ -84,7 +167,8 @@ public class ProductLoader : MonoBehaviour
         {
             MessageBroker.Default.Publish(new MessageEventArgs
             {
-                Message     = "Unknown Error!",
+                //Message     = "Unknown Error!",
+                Message = exception.Message + "\n" + exception.StackTrace,
                 MessageType = MessageType.Error
             });
             Debug.LogError(exception.Message + "\n" + exception.StackTrace);
@@ -92,6 +176,6 @@ public class ProductLoader : MonoBehaviour
         finally
         {
             MessageBroker.Default.Publish(new LoadingPanelEventArgs { Enabled = false });
-        }
+        }*/
     }
 }

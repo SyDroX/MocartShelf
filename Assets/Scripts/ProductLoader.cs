@@ -24,14 +24,10 @@ public class ProductLoader : MonoBehaviour
         _receiver.Dispose();
     }
 
-    private void Start()
-    {
-        LoadProducts();
-    }
-
     private void OnProductPoolCreated(ProductsPooledEventArgs args)
     {
         _products = args.ProductsPool;
+        LoadProducts();
     }
 
     private void TryAddProduct(ProductInfo productInfo)
@@ -39,7 +35,7 @@ public class ProductLoader : MonoBehaviour
         if (int.TryParse(productInfo.Name.Split(' ')[1], out int productIndex))
         {
             // Convert from displayed to zero based array
-            productIndex                        -=  1;
+            productIndex -= 1;
             // Using the product name as ID, this allows the changes made to product info to persist between reloads
             _products[productIndex].ProductInfo ??= productInfo;
             _loadedProducts.Add(_products[productIndex]);

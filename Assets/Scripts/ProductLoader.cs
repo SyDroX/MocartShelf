@@ -5,7 +5,7 @@ using UniRx;
 using UnityEngine;
 using WebRequests;
 
-public class ProductManager : MonoBehaviour
+public class ProductLoader : MonoBehaviour
 {
     private IDisposable _receiver;
     private Product[]   _products;

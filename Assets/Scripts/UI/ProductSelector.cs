@@ -17,8 +17,6 @@ namespace UI
         [SerializeField] private Button _leftButton;
         [SerializeField] private Button _rightButton;
         [SerializeField] private Button _editButton;
-        [SerializeField] private float  _highlightTimeSeconds  = 1f;
-        [SerializeField] private float  _highlightMaxIntensity = 1f;
 
         private void OnEnable()
         {
@@ -35,20 +33,6 @@ namespace UI
             _leftButton.onClick.RemoveListener(OnLeft);
             _receiver.Dispose();
         }
-
-        private IEnumerator LerpLightIntensity(float from, float to, Light targetLight)
-        {
-            var time = 0f;
-
-            while (time < _highlightTimeSeconds)
-            {
-                time                  += Time.deltaTime;
-                targetLight.intensity =  Mathf.Lerp(from, to, time / _highlightTimeSeconds);
-
-                yield return null;
-            }
-        }
-
 
         private void OnEdit()
         {

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using Entities;
 using UniRx;
@@ -63,28 +62,21 @@ namespace UI
 
         private void ToggleSelectedProduct(bool state)
         {
-            _products[_selectedIndex].Arrow.SetActive(state);
-            _products[_selectedIndex].Rotator.enabled = state;
+            if (_products != null)
+            {
+                _products[_selectedIndex].Arrow.SetActive(state);
+                _products[_selectedIndex].Rotator.enabled = state;
+            }
         }
 
         private void OnProductsReceived(List<Product> products)
         {
-            _products = products;
-
-            // TODO: comment why dis
-            if (_products.Count == 1)
-            {
-                ToggleButtons(false);
-                _selectedIndex = 0;
-            }
-            else
-            {
-                ToggleButtons(true);
-                _selectedIndex = 1;
-            }
-
-            MessageBroker.Default.Publish(_products[_selectedIndex].ProductInfo);
+            ToggleSelectedProduct(false);
+            _products      = new List<Product>(products);
+            _selectedIndex = 0;
+            ToggleButtons(_products.Count != 1);
             ToggleSelectedProduct(true);
+            MessageBroker.Default.Publish(_products[_selectedIndex].ProductInfo);
         }
     }
 }

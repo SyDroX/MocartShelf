@@ -27,20 +27,12 @@ public class ProductDisplayer : MonoBehaviour
         _shownProducts.ForEach(sp => sp.GameObject.SetActive(false));
         _shownProducts = new List<Product>(products);
 
-        if (_shownProducts.Count == 1)
+        for (var index = 0; index < _shownProducts.Count; index++)
         {
-            Product product = _shownProducts[0];
-            product.GameObject.transform.position = _initialPosition + new Vector3(_offsetX, 0, 0);
+            Product product   = _shownProducts[index];
+            float   positionX = _offsetX * (index - (_shownProducts.Count - 1) / 2.0f);
+            product.GameObject.transform.position = _initialPosition + new Vector3(positionX, 0, 0);
             product.GameObject.SetActive(true);
-        }
-        else
-        {
-            for (var index = 0; index < _shownProducts.Count; index++)
-            {
-                Product product = _shownProducts[index];
-                product.GameObject.transform.position = _initialPosition + new Vector3(_offsetX * index, 0, 0);
-                product.GameObject.SetActive(true);
-            }
         }
     }
 }

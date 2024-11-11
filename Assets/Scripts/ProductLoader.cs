@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using Entities;
+using Newtonsoft.Json;
 using UI;
 using UniRx;
 using UnityEngine;
@@ -55,17 +57,49 @@ public class ProductLoader : MonoBehaviour
     public async void LoadProducts()
     {
         MessageBroker.Default.Publish(new LoadingPanelEventArgs { Enabled = true });
-        // TODO: error handling
-        ProductInfo[] productInfos = await ProductHandler.Get();
 
-        _loadedProducts.Clear();
-
-        foreach (ProductInfo productInfo in productInfos)
+        try
         {
-            TryAddProduct(productInfo);
-        }
+            ProductInfo[] productInfos = await ProductHandler.Get();
+            _loadedProducts.Clear();
 
-        MessageBroker.Default.Publish(new LoadingPanelEventArgs { Enabled          = false });
-        MessageBroker.Default.Publish(new LoadedProductsEventArgs { LoadedProducts = _loadedProducts });
+            foreach (ProductInfo productInfo in productInfos)
+            {
+                TryAddProduct(productInfo);
+            }
+            
+            MessageBroker.Default.Publish(new LoadedProductsEventArgs { LoadedProducts = _loadedProducts });
+        }
+        catch (HttpRequestException httpRequestException)
+        {
+            MessageBroker.Default.Publish(new MessageEventArgs
+            {
+                Message     = "Error getting products!",
+                MessageType = MessageType.Error
+            });
+            Debug.LogError(httpRequestException.Message + "\n" + httpRequestException.StackTrace);
+        }
+        catch (JsonException jsonException)
+        {
+            MessageBroker.Default.Publish(new MessageEventArgs
+            {
+                Message     = "Error reading products!",
+                MessageType = MessageType.Error
+            });
+            Debug.LogError(jsonException.Message + "\n" + jsonException.StackTrace);
+        }
+        catch (Exception exception)
+        {
+            MessageBroker.Default.Publish(new MessageEventArgs
+            {
+                Message     = "Unknown Error!",
+                MessageType = MessageType.Error
+            });
+            Debug.LogError(exception.Message + "\n" + exception.StackTrace);
+        }
+        finally
+        {
+            MessageBroker.Default.Publish(new LoadingPanelEventArgs { Enabled = false });
+        }
     }
 }

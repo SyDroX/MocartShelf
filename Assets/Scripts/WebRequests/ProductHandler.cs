@@ -18,7 +18,13 @@ namespace WebRequests
             string response      = await GetAsync("Products");
             var    productsArray = JsonConvert.DeserializeObject<ProductsArray>(response);
 
-            return productsArray.Products;
+            if (productsArray.Products == null)
+            {
+                throw new JsonException("Error parsing products");
+            }
+
+            return null;
+            //return productsArray.Products;
         }
     }
 }

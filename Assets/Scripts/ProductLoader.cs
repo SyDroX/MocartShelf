@@ -10,6 +10,9 @@ public class ProductLoader : MonoBehaviour
     private IDisposable _receiver;
     private Product[]   _products;
     private List<Product> _loadedProducts = new();
+
+    [SerializeField] private GameObject _loadingPanel;
+    
     
     private void OnEnable()
     {
@@ -48,7 +51,7 @@ public class ProductLoader : MonoBehaviour
     
     public async void LoadProducts()
     {
-        // Show Loading
+        _loadingPanel.SetActive(true);
         // TODO: error handling
         ProductInfo[] productInfos = await ProductHandler.Get();
         
@@ -60,6 +63,6 @@ public class ProductLoader : MonoBehaviour
         }
         
         MessageBroker.Default.Publish(_loadedProducts);
-        // Hide Loading
+        _loadingPanel.SetActive(false);
     }
 }

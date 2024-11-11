@@ -36,13 +36,6 @@ namespace WebRequests
             return await streamReader.ReadToEndAsync();
         }
 
-        protected static string Get(string requestUri)
-        {
-            using HttpResponseMessage httpResponseMessage = SharedClient.GetAsync(string.Concat(MocartUri, requestUri)).Result;
-
-            return HandleResponse(httpResponseMessage);
-        }
-
         protected static async Task<string> GetAsync(string requestUri)
         {
             using HttpResponseMessage httpResponseMessage = await SharedClient.GetAsync(string.Concat(MocartUri, requestUri));

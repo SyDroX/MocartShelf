@@ -6,15 +6,20 @@ using UniRx;
 using UnityEngine;
 using WebRequests;
 
+public class LoadedProductsEventArgs
+{
+    public List<Product> LoadedProducts;
+}
+
 public class ProductLoader : MonoBehaviour
 {
-    private IDisposable _receiver;
-    private Product[]   _products;
+    private IDisposable   _receiver;
+    private Product[]     _products;
     private List<Product> _loadedProducts = new();
-    
+
     private void OnEnable()
     {
-        _receiver = MessageBroker.Default.Receive<Product[]>().ObserveOnMainThread().Subscribe(OnProductPoolCreated);
+        _receiver = MessageBroker.Default.Receive<ProductsPooledEventArgs>().ObserveOnMainThread().Subscribe(OnProductPoolCreated);
     }
 
     private void OnDisable()
@@ -27,11 +32,11 @@ public class ProductLoader : MonoBehaviour
         LoadProducts();
     }
 
-    private void OnProductPoolCreated(Product[] products)
+    private void OnProductPoolCreated(ProductsPooledEventArgs args)
     {
-        _products = products;
+        _products = args.ProductsPool;
     }
-    
+
     private void TryAddProduct(ProductInfo productInfo)
     {
         if (int.TryParse(productInfo.Name.Split(' ')[1], out int productIndex))
@@ -46,21 +51,21 @@ public class ProductLoader : MonoBehaviour
             Debug.LogError("Error phrasing product number");
         }
     }
-    
+
     public async void LoadProducts()
     {
         MessageBroker.Default.Publish(new LoadingPanelEventArgs { Enabled = true });
         // TODO: error handling
         ProductInfo[] productInfos = await ProductHandler.Get();
-        
+
         _loadedProducts.Clear();
-        
+
         foreach (ProductInfo productInfo in productInfos)
         {
             TryAddProduct(productInfo);
         }
-        
-        MessageBroker.Default.Publish(new LoadingPanelEventArgs { Enabled = false });
-        MessageBroker.Default.Publish(_loadedProducts);
+
+        MessageBroker.Default.Publish(new LoadingPanelEventArgs { Enabled          = false });
+        MessageBroker.Default.Publish(new LoadedProductsEventArgs { LoadedProducts = _loadedProducts });
     }
 }

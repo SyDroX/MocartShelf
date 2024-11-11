@@ -17,7 +17,7 @@ namespace UI
 
         private void OnEnable()
         {
-            _receiver = MessageBroker.Default.Receive<ProductInfo>().ObserveOnMainThread().Subscribe(OnDisplayProductInfo);
+            _receiver = MessageBroker.Default.Receive<DisplayProductInfoEventArgs>().ObserveOnMainThread().Subscribe(OnDisplayProductInfo);
         }
 
         private void OnDisable()
@@ -25,11 +25,11 @@ namespace UI
             _receiver.Dispose();
         }
         
-        private void OnDisplayProductInfo(ProductInfo productInfo)
+        private void OnDisplayProductInfo(DisplayProductInfoEventArgs args)
         {
-            _nameText.text        = productInfo.Name;
-            _descriptionText.text = productInfo.Description;
-            _priceText.text       = productInfo.Price.ToString(CultureInfo.InvariantCulture);
+            _nameText.text        = args.ProductInfo.Name;
+            _descriptionText.text = args.ProductInfo.Description;
+            _priceText.text       = args.ProductInfo.Price.ToString(CultureInfo.InvariantCulture);
         }
     }
 }

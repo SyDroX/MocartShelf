@@ -7,6 +7,16 @@ using UnityEngine.UI;
 
 namespace UI
 {
+    public class DisplayProductInfoEventArgs
+    {
+        public ProductInfo ProductInfo;
+    }
+
+    public class EditProductInfoEventArgs
+    {
+        public ProductInfo Product;
+    }
+    
     public class ProductSelector : MonoBehaviour
     {
         private IDisposable   _receiver;
@@ -22,7 +32,7 @@ namespace UI
             _editButton.onClick.AddListener(OnEdit);
             _rightButton.onClick.AddListener(OnRight);
             _leftButton.onClick.AddListener(OnLeft);
-            _receiver = MessageBroker.Default.Receive<List<Product>>().ObserveOnMainThread().Subscribe(OnProductsReceived);
+            _receiver = MessageBroker.Default.Receive<LoadedProductsEventArgs>().ObserveOnMainThread().Subscribe(OnProductsReceived);
         }
 
         private void OnDisable()
@@ -35,14 +45,14 @@ namespace UI
 
         private void OnEdit()
         {
-            MessageBroker.Default.Publish(_products[_selectedIndex]);
+            MessageBroker.Default.Publish(new EditProductInfoEventArgs { Product = _products[_selectedIndex].ProductInfo });
         }
 
         private void OnLeft()
         {
             ToggleSelectedProduct(false);
             _selectedIndex = (_selectedIndex - 1 + _products.Count) % _products.Count;
-            MessageBroker.Default.Publish(_products[_selectedIndex].ProductInfo);
+            MessageBroker.Default.Publish(new DisplayProductInfoEventArgs { ProductInfo = _products[_selectedIndex].ProductInfo });
             ToggleSelectedProduct(true);
         }
 
@@ -50,7 +60,7 @@ namespace UI
         {
             ToggleSelectedProduct(false);
             _selectedIndex = (_selectedIndex + 1) % _products.Count;
-            MessageBroker.Default.Publish(_products[_selectedIndex].ProductInfo);
+            MessageBroker.Default.Publish(new DisplayProductInfoEventArgs { ProductInfo = _products[_selectedIndex].ProductInfo });
             ToggleSelectedProduct(true);
         }
 
@@ -69,14 +79,14 @@ namespace UI
             }
         }
 
-        private void OnProductsReceived(List<Product> products)
+        private void OnProductsReceived(LoadedProductsEventArgs args)
         {
             ToggleSelectedProduct(false);
-            _products      = new List<Product>(products);
+            _products      = new List<Product>(args.LoadedProducts);
             _selectedIndex = 0;
             ToggleButtons(_products.Count != 1);
             ToggleSelectedProduct(true);
-            MessageBroker.Default.Publish(_products[_selectedIndex].ProductInfo);
+            MessageBroker.Default.Publish(new DisplayProductInfoEventArgs { ProductInfo = _products[_selectedIndex].ProductInfo });
         }
     }
 }

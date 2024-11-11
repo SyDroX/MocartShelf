@@ -14,7 +14,7 @@ public class ProductDisplayer : MonoBehaviour
 
     private void OnEnable()
     {
-        _receiver = MessageBroker.Default.Receive<List<Product>>().ObserveOnMainThread().Subscribe(OnProductsReceived);
+        _receiver = MessageBroker.Default.Receive<LoadedProductsEventArgs>().ObserveOnMainThread().Subscribe(OnProductsReceived);
     }
 
     private void OnDisable()
@@ -22,10 +22,10 @@ public class ProductDisplayer : MonoBehaviour
         _receiver.Dispose();
     }
 
-    private void OnProductsReceived(List<Product> products)
+    private void OnProductsReceived(LoadedProductsEventArgs args)
     {
         _shownProducts.ForEach(sp => sp.GameObject.SetActive(false));
-        _shownProducts = new List<Product>(products);
+        _shownProducts = new List<Product>(args.LoadedProducts);
 
         for (var index = 0; index < _shownProducts.Count; index++)
         {

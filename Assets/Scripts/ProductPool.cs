@@ -3,6 +3,11 @@ using UI;
 using UniRx;
 using UnityEngine;
 
+public class ProductsPooledEventArgs
+{
+    public Product[] ProductsPool;
+}
+
 public class ProductPool : MonoBehaviour
 {
     [SerializeField] private GameObject _arrowPrefab;
@@ -37,6 +42,6 @@ public class ProductPool : MonoBehaviour
             productsPool[index].GameObject.SetActive(false);
         }
 
-        MessageBroker.Default.Publish(productsPool);
+        MessageBroker.Default.Publish(new ProductsPooledEventArgs { ProductsPool = productsPool });
     }
 }

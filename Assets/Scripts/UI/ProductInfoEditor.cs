@@ -11,7 +11,7 @@ namespace UI
     public class ProductInfoEditor : MonoBehaviour
     {
         private IDisposable _receiver;
-        private Product     _productToEdit;
+        private ProductInfo     _productToEdit;
 
         [SerializeField] private TMP_InputField _nameInputField;
         [SerializeField] private TMP_InputField _priceInputField;
@@ -21,7 +21,7 @@ namespace UI
         private void OnEnable()
         {
             _saveButton.onClick.AddListener(OnSaveClick);
-            _receiver = MessageBroker.Default.Receive<Product>().ObserveOnMainThread().Subscribe(OnEditProduct);
+            _receiver = MessageBroker.Default.Receive<EditProductInfoEventArgs>().ObserveOnMainThread().Subscribe(OnEditProduct);
         }
 
         private void OnDisable()
@@ -32,20 +32,24 @@ namespace UI
 
         private void OnSaveClick()
         {
-            _productToEdit.ProductInfo.Description = _descriptionInputField.text;
-            _productToEdit.ProductInfo.Price       = decimal.Parse(_priceInputField.text);
-            _productToEdit.ProductInfo.Name        = _nameInputField.text;
+            _productToEdit.Description = _descriptionInputField.text;
+            _productToEdit.Price       = decimal.Parse(_priceInputField.text);
+            _productToEdit.Name        = _nameInputField.text;
 
-            MessageBroker.Default.Publish(_productToEdit.ProductInfo);
-            MessageBroker.Default.Publish(new MessageEventArgs{Message = "Saved!", MessageType = MessageType.Success});
+            MessageBroker.Default.Publish(new DisplayProductInfoEventArgs { ProductInfo = _productToEdit });
+            MessageBroker.Default.Publish(new MessageEventArgs
+            {
+                Message     = "Saved!",
+                MessageType = MessageType.Success
+            });
         }
 
-        private void OnEditProduct(Product product)
+        private void OnEditProduct(EditProductInfoEventArgs args)
         {
-            _productToEdit              = product;
-            _nameInputField.text        = _productToEdit.ProductInfo.Name;
-            _priceInputField.text       = _productToEdit.ProductInfo.Price.ToString(CultureInfo.InvariantCulture);
-            _descriptionInputField.text = _productToEdit.ProductInfo.Description;
+            _productToEdit              = args.Product;
+            _nameInputField.text        = _productToEdit.Name;
+            _priceInputField.text       = _productToEdit.Price.ToString(CultureInfo.InvariantCulture);
+            _descriptionInputField.text = _productToEdit.Description;
         }
     }
 }

@@ -1,14 +1,10 @@
 ﻿using System;
+using EventData;
 using UniRx;
 using UnityEngine;
 
 namespace UI
 {
-    public class LoadingPanelEventArgs
-    {
-        public bool Enabled;
-    }
-    
     public class LoadingPanelHandler : MonoBehaviour
     {
         private IDisposable   _receiver;

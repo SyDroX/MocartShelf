@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using EventData;
 using TMPro;
 using UniRx;
 using UnityEngine;
@@ -7,18 +8,6 @@ using UnityEngine.UI;
 
 namespace UI
 {
-    public enum MessageType
-    {
-        Error = 0,
-        Success
-    }
-    
-    public class MessageEventArgs
-    {
-        public MessageType MessageType;
-        public string Message;
-    }
-    
     public class MessageHandler : MonoBehaviour
     {
         private IDisposable _receiver;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using Entities;
+using EventData;
 using TMPro;
 using UniRx;
 using UnityEngine;

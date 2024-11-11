@@ -2,16 +2,12 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using Entities;
+using EventData;
 using Newtonsoft.Json;
 using UI;
 using UniRx;
 using UnityEngine;
 using WebRequests;
-
-public class LoadedProductsEventArgs
-{
-    public List<Product> LoadedProducts;
-}
 
 public class ProductLoader : MonoBehaviour
 {

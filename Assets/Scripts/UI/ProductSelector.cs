@@ -1,22 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using Entities;
+using EventData;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI
 {
-    public class DisplayProductInfoEventArgs
-    {
-        public ProductInfo ProductInfo;
-    }
-
-    public class EditProductInfoEventArgs
-    {
-        public ProductInfo Product;
-    }
-    
     public class ProductSelector : MonoBehaviour
     {
         private IDisposable   _receiver;

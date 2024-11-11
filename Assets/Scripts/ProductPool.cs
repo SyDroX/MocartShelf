@@ -1,12 +1,8 @@
 using Entities;
+using EventData;
 using UI;
 using UniRx;
 using UnityEngine;
-
-public class ProductsPooledEventArgs
-{
-    public Product[] ProductsPool;
-}
 
 public class ProductPool : MonoBehaviour
 {

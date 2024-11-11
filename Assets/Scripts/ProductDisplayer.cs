@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Entities;
+using EventData;
 using UniRx;
 using UnityEngine;
 

@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class ProductPool : MonoBehaviour
 {
+    [SerializeField] private GameObject _arrowPrefab;
     [SerializeField] private GameObject[] _productPrefabs;
 
     private void Start()
@@ -21,10 +22,16 @@ public class ProductPool : MonoBehaviour
 
         for (var index = 0; index < _productPrefabs.Length; index++)
         {
-            GameObject productInstance = Instantiate(_productPrefabs[index],productPoolRoot);
+            GameObject productRoot     = new GameObject(_productPrefabs[index].name + " Root");
+            GameObject productInstance = Instantiate(_productPrefabs[index], productRoot.transform);
+            GameObject arrow           = Instantiate(_arrowPrefab,           productRoot.transform);
+            productRoot.transform.SetParent(productPoolRoot);
+            arrow.SetActive(false);
             productsPool[index] = new Product
             {
-                GameObject  = productInstance,
+                GameObject = productRoot,
+                Rotator    = productInstance.GetComponent<Rotator>(),
+                Arrow      = arrow
             };
             
             productsPool[index].GameObject.SetActive(false);

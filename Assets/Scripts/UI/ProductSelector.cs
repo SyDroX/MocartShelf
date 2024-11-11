@@ -41,24 +41,30 @@ namespace UI
 
         private void OnLeft()
         {
-
+            ToggleSelectedProduct(false);
             _selectedIndex = (_selectedIndex - 1 + _products.Count) % _products.Count;
             MessageBroker.Default.Publish(_products[_selectedIndex].ProductInfo);
-            
+            ToggleSelectedProduct(true);
         }
 
         private void OnRight()
         {
-
+            ToggleSelectedProduct(false);
             _selectedIndex = (_selectedIndex + 1) % _products.Count;
             MessageBroker.Default.Publish(_products[_selectedIndex].ProductInfo);
-
+            ToggleSelectedProduct(true);
         }
 
         private void ToggleButtons(bool state)
         {
             _rightButton.gameObject.SetActive(state);
             _leftButton.gameObject.SetActive(state);
+        }
+
+        private void ToggleSelectedProduct(bool state)
+        {
+            _products[_selectedIndex].Arrow.SetActive(state);
+            _products[_selectedIndex].Rotator.enabled = state;
         }
 
         private void OnProductsReceived(List<Product> products)
@@ -78,7 +84,7 @@ namespace UI
             }
 
             MessageBroker.Default.Publish(_products[_selectedIndex].ProductInfo);
-            
+            ToggleSelectedProduct(true);
         }
     }
 }

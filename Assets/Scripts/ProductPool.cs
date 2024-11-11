@@ -1,6 +1,6 @@
 using Entities;
+using UI;
 using UniRx;
-using UnityEditor;
 using UnityEngine;
 
 public class ProductPool : MonoBehaviour
@@ -10,11 +10,11 @@ public class ProductPool : MonoBehaviour
 
     private void Start()
     {
-        // Show Loading 
+        MessageBroker.Default.Publish(new LoadingPanelEventArgs { Enabled = true });
         InstantiateProductsPool();
-        // Hide Loading 
     }
 
+    // Create a pool of 10 "products" illustrated by fruits and vegetables with an arrow and a rotator for selection indication
     private void InstantiateProductsPool()
     {
         var       productsPool    = new Product[_productPrefabs.Length];

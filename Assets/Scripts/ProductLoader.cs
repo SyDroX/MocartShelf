@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Entities;
+using UI;
 using UniRx;
 using UnityEngine;
 using WebRequests;
@@ -10,9 +11,6 @@ public class ProductLoader : MonoBehaviour
     private IDisposable _receiver;
     private Product[]   _products;
     private List<Product> _loadedProducts = new();
-
-    [SerializeField] private GameObject _loadingPanel;
-    
     
     private void OnEnable()
     {
@@ -51,7 +49,7 @@ public class ProductLoader : MonoBehaviour
     
     public async void LoadProducts()
     {
-        _loadingPanel.SetActive(true);
+        MessageBroker.Default.Publish(new LoadingPanelEventArgs { Enabled = true });
         // TODO: error handling
         ProductInfo[] productInfos = await ProductHandler.Get();
         
@@ -62,7 +60,7 @@ public class ProductLoader : MonoBehaviour
             TryAddProduct(productInfo);
         }
         
+        MessageBroker.Default.Publish(new LoadingPanelEventArgs { Enabled = false });
         MessageBroker.Default.Publish(_loadedProducts);
-        _loadingPanel.SetActive(false);
     }
 }

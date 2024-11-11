@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Globalization;
-using Entities;
 using EventData;
 using TMPro;
 using UniRx;
 using UnityEngine;
 
-namespace UI
+namespace UI.Product
 {
     public class ProductInfoDisplayer : MonoBehaviour
     {

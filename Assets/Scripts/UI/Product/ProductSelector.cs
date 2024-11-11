@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using Entities;
 using EventData;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
+namespace UI.Product
 {
     public class ProductSelector : MonoBehaviour
     {
-        private IDisposable   _receiver;
-        private List<Product> _products;
-        private int           _selectedIndex;
+        private IDisposable            _receiver;
+        private List<Entities.Product> _products;
+        private int                    _selectedIndex;
 
         [SerializeField] private Button _leftButton;
         [SerializeField] private Button _rightButton;
@@ -74,7 +73,7 @@ namespace UI
         private void OnProductsReceived(LoadedProductsEventArgs args)
         {
             ToggleSelectedProduct(false);
-            _products      = new List<Product>(args.LoadedProducts);
+            _products      = new List<Entities.Product>(args.LoadedProducts);
             _selectedIndex = 0;
             ToggleButtons(_products.Count != 1);
             ToggleSelectedProduct(true);

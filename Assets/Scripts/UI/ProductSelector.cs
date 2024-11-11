@@ -57,18 +57,18 @@ namespace UI
 
         private void OnLeft()
         {
-            StartCoroutine(LerpLightIntensity(_highlightMaxIntensity, 0, _products[_selectedIndex].Highlighter));
+
             _selectedIndex = (_selectedIndex - 1 + _products.Count) % _products.Count;
             MessageBroker.Default.Publish(_products[_selectedIndex].ProductInfo);
-            StartCoroutine(LerpLightIntensity(0, _highlightMaxIntensity, _products[_selectedIndex].Highlighter));
+            
         }
 
         private void OnRight()
         {
-            StartCoroutine(LerpLightIntensity(_highlightMaxIntensity, 0, _products[_selectedIndex].Highlighter));
+
             _selectedIndex = (_selectedIndex + 1) % _products.Count;
             MessageBroker.Default.Publish(_products[_selectedIndex].ProductInfo);
-            StartCoroutine(LerpLightIntensity(0, _highlightMaxIntensity, _products[_selectedIndex].Highlighter));
+
         }
 
         private void ToggleButtons(bool state)
@@ -94,7 +94,7 @@ namespace UI
             }
 
             MessageBroker.Default.Publish(_products[_selectedIndex].ProductInfo);
-            StartCoroutine(LerpLightIntensity(0, _highlightMaxIntensity, _products[_selectedIndex].Highlighter));
+            
         }
     }
 }

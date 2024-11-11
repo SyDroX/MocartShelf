@@ -25,7 +25,6 @@ public class ProductPool : MonoBehaviour
             productsPool[index] = new Product
             {
                 GameObject  = productInstance,
-                Highlighter = productInstance.GetComponent<Light>()
             };
             
             productsPool[index].GameObject.SetActive(false);

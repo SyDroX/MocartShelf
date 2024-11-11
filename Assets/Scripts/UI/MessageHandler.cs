@@ -85,6 +85,13 @@ namespace UI
         private void OnMessage(MessageEventArgs args)
         {
            _messageText.text = args.Message;
+           _messageBackground.color = args.MessageType switch
+           {
+               MessageType.Error => _errorColor,
+               MessageType.Success => _successColor, 
+               _ => throw new ArgumentOutOfRangeException()
+           };
+
            StartCoroutine(HandleMessageDisplay(args.MessageType));
         }
     }

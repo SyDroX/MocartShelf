@@ -29,6 +29,7 @@ namespace UI
 
         private void OnEnable()
         {
+            ToggleButtons(false);
             _editButton.onClick.AddListener(OnEdit);
             _rightButton.onClick.AddListener(OnRight);
             _leftButton.onClick.AddListener(OnLeft);

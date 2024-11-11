@@ -11,7 +11,7 @@ namespace UI
     public class ProductInfoEditor : MonoBehaviour
     {
         private IDisposable _receiver;
-        private ProductInfo     _productToEdit;
+        private ProductInfo _productInfoToEdit;
 
         [SerializeField] private TMP_InputField _nameInputField;
         [SerializeField] private TMP_InputField _priceInputField;
@@ -32,11 +32,11 @@ namespace UI
 
         private void OnSaveClick()
         {
-            _productToEdit.Description = _descriptionInputField.text;
-            _productToEdit.Price       = decimal.Parse(_priceInputField.text);
-            _productToEdit.Name        = _nameInputField.text;
+            _productInfoToEdit.Description = _descriptionInputField.text;
+            _productInfoToEdit.Price       = decimal.Parse(_priceInputField.text);
+            _productInfoToEdit.Name        = _nameInputField.text;
 
-            MessageBroker.Default.Publish(new DisplayProductInfoEventArgs { ProductInfo = _productToEdit });
+            MessageBroker.Default.Publish(new DisplayProductInfoEventArgs { ProductInfo = _productInfoToEdit });
             MessageBroker.Default.Publish(new MessageEventArgs
             {
                 Message     = "Saved!",
@@ -46,10 +46,10 @@ namespace UI
 
         private void OnEditProduct(EditProductInfoEventArgs args)
         {
-            _productToEdit              = args.Product;
-            _nameInputField.text        = _productToEdit.Name;
-            _priceInputField.text       = _productToEdit.Price.ToString(CultureInfo.InvariantCulture);
-            _descriptionInputField.text = _productToEdit.Description;
+            _productInfoToEdit          = args.Product;
+            _nameInputField.text        = _productInfoToEdit.Name;
+            _priceInputField.text       = _productInfoToEdit.Price.ToString(CultureInfo.InvariantCulture);
+            _descriptionInputField.text = _productInfoToEdit.Description;
         }
     }
 }

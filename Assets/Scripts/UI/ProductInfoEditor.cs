@@ -37,6 +37,7 @@ namespace UI
             _productToEdit.ProductInfo.Name        = _nameInputField.text;
 
             MessageBroker.Default.Publish(_productToEdit.ProductInfo);
+            MessageBroker.Default.Publish(new MessageEventArgs{Message = "Saved!", MessageType = MessageType.Success});
         }
 
         private void OnEditProduct(Product product)

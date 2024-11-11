@@ -13,7 +13,8 @@ namespace UI
     {
         private IDisposable _receiver;
         private ProductInfo _productInfoToEdit;
-
+        private decimal _productPrice;
+        
         [SerializeField] private TMP_InputField _nameInputField;
         [SerializeField] private TMP_InputField _priceInputField;
         [SerializeField] private TMP_InputField _descriptionInputField;
@@ -21,14 +22,24 @@ namespace UI
 
         private void OnEnable()
         {
+            _priceInputField.onEndEdit.AddListener(OnPriceChanged);
             _saveButton.onClick.AddListener(OnSaveClick);
             _receiver = MessageBroker.Default.Receive<EditProductInfoEventArgs>().ObserveOnMainThread().Subscribe(OnEditProduct);
         }
 
         private void OnDisable()
         {
-            _receiver.Dispose();
+            _priceInputField.onEndEdit.RemoveListener(OnPriceChanged);
             _saveButton.onClick.RemoveListener(OnSaveClick);
+            _receiver.Dispose();
+        }
+
+        private void OnPriceChanged(string newValue)
+        {
+            if (!decimal.TryParse(newValue, out decimal _))
+            {
+                _priceInputField.text = _productPrice.ToString(CultureInfo.InvariantCulture);
+            }
         }
 
         private void OnSaveClick()
@@ -49,6 +60,7 @@ namespace UI
         {
             _productInfoToEdit          = args.Product;
             _nameInputField.text        = _productInfoToEdit.Name;
+            _productPrice               = _productInfoToEdit.Price;
             _priceInputField.text       = _productInfoToEdit.Price.ToString(CultureInfo.InvariantCulture);
             _descriptionInputField.text = _productInfoToEdit.Description;
         }

@@ -22,9 +22,7 @@ namespace WebRequests
             {
                 throw new JsonException("Error parsing products");
             }
-
-            return null;
-            //return productsArray.Products;
+            return productsArray.Products;
         }
     }
 }

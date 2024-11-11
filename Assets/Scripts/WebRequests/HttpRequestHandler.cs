@@ -12,17 +12,6 @@ namespace WebRequests
         // In a more complete solution this can be read from a configuration file
         private const string MocartUri = "https://homework.mocart.io/api/";
 
-        private static string HandleResponse(HttpResponseMessage httpResponseMessage)
-        {
-            // TODO: figure out what to return on error
-            if (httpResponseMessage.StatusCode != HttpStatusCode.OK) return string.Empty;
-
-            using Stream responseStream = httpResponseMessage.Content.ReadAsStreamAsync().Result;
-            using var    streamReader   = new StreamReader(responseStream);
-
-            return streamReader.ReadToEnd();
-        }
-
         private static async Task<string> HandleResponseAsync(HttpResponseMessage httpResponseMessage)
         {
             if (httpResponseMessage.StatusCode != HttpStatusCode.OK)

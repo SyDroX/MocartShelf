@@ -4,7 +4,6 @@ using System.Net.Http;
 using Entities;
 using EventData;
 using Newtonsoft.Json;
-using UI;
 using UniRx;
 using UnityEngine;
 using WebRequests;
@@ -41,6 +40,7 @@ public class ProductLoader : MonoBehaviour
         {
             // Convert from displayed to zero based array
             productIndex                        -=  1;
+            // Using the product name as ID, this allows the changes made to product info to persist between reloads
             _products[productIndex].ProductInfo ??= productInfo;
             _loadedProducts.Add(_products[productIndex]);
         }

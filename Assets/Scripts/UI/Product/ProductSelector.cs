@@ -45,6 +45,7 @@ namespace UI.Product
             _selectedIndex = (_selectedIndex - 1 + _products.Count) % _products.Count;
             MessageBroker.Default.Publish(new DisplayProductInfoEventArgs { ProductInfo = _products[_selectedIndex].ProductInfo });
             ToggleSelectedProduct(true);
+            MessageBroker.Default.Publish(new SelectedProductPositionEventArgs{ Position = _products[_selectedIndex].GameObject.transform.position });
         }
 
         private void OnRight()
@@ -53,6 +54,7 @@ namespace UI.Product
             _selectedIndex = (_selectedIndex + 1) % _products.Count;
             MessageBroker.Default.Publish(new DisplayProductInfoEventArgs { ProductInfo = _products[_selectedIndex].ProductInfo });
             ToggleSelectedProduct(true);
+            MessageBroker.Default.Publish(new SelectedProductPositionEventArgs{ Position = _products[_selectedIndex].GameObject.transform.position });
         }
 
         private void ToggleButtons(bool state)

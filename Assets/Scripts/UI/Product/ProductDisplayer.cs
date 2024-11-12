@@ -36,6 +36,8 @@ namespace UI.Product
                 product.GameObject.transform.position = _initialPosition + new Vector3(positionX, 0, 0);
                 product.GameObject.SetActive(true);
             }
+            
+            MessageBroker.Default.Publish(new SelectedProductPositionEventArgs{ Position = _shownProducts[0].GameObject.transform.position });
         }
     }
 }

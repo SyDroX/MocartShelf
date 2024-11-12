@@ -3031,7 +3031,7 @@ GameObject:
   - component: {fileID: 892904486}
   - component: {fileID: 892904485}
   - component: {fileID: 892904484}
-  - component: {fileID: 892904483}
+  - component: {fileID: 892904487}
   m_Layer: 5
   m_Name: 'Price Input Field '
   m_TagString: Untagged
@@ -3059,19 +3059,6 @@ RectTransform:
   m_AnchoredPosition: {x: 155, y: -15}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &892904483
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 892904481}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc33a39070010f94fb1c2dd721c1286d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  showHtmlElement: 0
 --- !u!114 &892904484
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3211,6 +3198,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 892904481}
   m_CullTransparentMesh: 1
+--- !u!114 &892904487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 892904481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc33a39070010f94fb1c2dd721c1286d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  showHtmlElement: 0
 --- !u!1 &974500752
 GameObject:
   m_ObjectHideFlags: 0
@@ -3832,7 +3832,7 @@ GameObject:
   - component: {fileID: 1459830916}
   - component: {fileID: 1459830915}
   - component: {fileID: 1459830914}
-  - component: {fileID: 1459830913}
+  - component: {fileID: 1459830917}
   m_Layer: 5
   m_Name: 'Name Input Field '
   m_TagString: Untagged
@@ -3860,19 +3860,6 @@ RectTransform:
   m_AnchoredPosition: {x: 155, y: -15}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1459830913
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1459830911}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc33a39070010f94fb1c2dd721c1286d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  showHtmlElement: 0
 --- !u!114 &1459830914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4012,6 +3999,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1459830911}
   m_CullTransparentMesh: 1
+--- !u!114 &1459830917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1459830911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc33a39070010f94fb1c2dd721c1286d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  showHtmlElement: 0
 --- !u!1 &1473196992
 GameObject:
   m_ObjectHideFlags: 0
@@ -5658,7 +5658,7 @@ GameObject:
   - component: {fileID: 1911725827}
   - component: {fileID: 1911725826}
   - component: {fileID: 1911725825}
-  - component: {fileID: 1911725824}
+  - component: {fileID: 1911725828}
   m_Layer: 5
   m_Name: 'Description Input Field '
   m_TagString: Untagged
@@ -5686,19 +5686,6 @@ RectTransform:
   m_AnchoredPosition: {x: 117.5, y: -45}
   m_SizeDelta: {x: 235, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1911725824
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1911725822}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc33a39070010f94fb1c2dd721c1286d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  showHtmlElement: 0
 --- !u!114 &1911725825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5838,6 +5825,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1911725822}
   m_CullTransparentMesh: 1
+--- !u!114 &1911725828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1911725822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc33a39070010f94fb1c2dd721c1286d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  showHtmlElement: 0
 --- !u!1 &1911997185
 GameObject:
   m_ObjectHideFlags: 0

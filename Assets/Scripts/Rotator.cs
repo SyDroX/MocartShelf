@@ -8,4 +8,9 @@ public class Rotator : MonoBehaviour
     {
         transform.Rotate(Vector3.up * (Time.deltaTime * _rotationSpeed));
     }
+
+    private void OnDisable()
+    {
+        transform.rotation = Quaternion.identity;
+    }
 }

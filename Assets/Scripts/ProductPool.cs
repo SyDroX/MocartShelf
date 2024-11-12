@@ -9,7 +9,7 @@ public class ProductPool : MonoBehaviour
     [SerializeField] private GameObject _arrowPrefab;
     [SerializeField] private GameObject[] _productPrefabs;
 
-    private void Awake()
+    private void Start()
     {
         MessageBroker.Default.Publish(new LoadingPanelEventArgs { Enabled = true });
         InstantiateProductsPool();

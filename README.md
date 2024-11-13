@@ -1,7 +1,7 @@
 # MocartShelf
 [Link to Playable](https://sydrox.itch.io/mocart)
 
-[Link to Playble with forced landscape for mobile](https://sydrox.itch.io/mocartforcelandscape)
+[Link to Playable with forced landscape for mobile](https://sydrox.itch.io/mocartforcelandscape)
 
 Built with Unity version 2022.3.18f1
 

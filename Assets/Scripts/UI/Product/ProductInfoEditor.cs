@@ -38,12 +38,9 @@ namespace UI.Product
         {
             bool success = decimal.TryParse(newValue, out decimal newPrice);
 
-            if (success && newPrice > 0)
+            if (!success || newPrice <= 0)
             {
                 _priceInputField.text = _productPrice.ToString(CultureInfo.InvariantCulture);
-            }
-            else
-            {
                 MessageBroker.Default.Publish(new MessageEventArgs
                 {
                     Message     = "Price must be a positive number.",

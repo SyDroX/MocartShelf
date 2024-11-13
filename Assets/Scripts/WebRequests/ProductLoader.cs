@@ -13,8 +13,8 @@ public class ProductLoader : MonoBehaviour
 {
     private const string ApiUri          = "https://homework.mocart.io/api/products";
     private const string ProductRequestError = "Error getting products from server!";
-    
-    private IDisposable   _receiver;
+
+    private IDisposable         _receiver;
     private MocratProduct[]     _products;
     private List<MocratProduct> _loadedProducts = new();
 

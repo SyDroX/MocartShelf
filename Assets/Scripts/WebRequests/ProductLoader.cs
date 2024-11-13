@@ -14,8 +14,7 @@ namespace WebRequests
     {
         // Since there is only one entry point to access the API I'm hardcoding the uri, this should come form a configuration file
         // and have a base uri and uri pages for each api method.
-        private const string ApiUri              = "https://homework.mocart.io/api/products";
-        private const string ProductRequestError = "Error getting products from server!";
+        private const string ApiUri = "https://homework.mocart.io/api/products";
 
         private bool                _loadInProgress;
         private IDisposable         _receiver;
@@ -38,6 +37,35 @@ namespace WebRequests
             LoadProducts();
         }
 
+        private static void ToggleLoadingPanel(bool enabled)
+        {
+            MessageBroker.Default.Publish(new LoadingPanelEventArgs { Enabled = enabled });
+        }
+
+        private static void HandleError(string message, bool debugLog = true, string debugLogMessage = "")
+        {
+            if (debugLog)
+            {
+                Debug.LogError(debugLogMessage == string.Empty ? message : debugLogMessage);
+            }
+
+            MessageBroker.Default.Publish(new MessageEventArgs
+            {
+                Message     = message,
+                MessageType = MessageType.Error
+            });
+        }
+
+        private static void HandleException(string message, Exception exception)
+        {
+            Debug.LogError(exception.Message + "\n" + exception.StackTrace);
+            MessageBroker.Default.Publish(new MessageEventArgs
+            {
+                Message     = message,
+                MessageType = MessageType.Error
+            });
+        }
+
         private void TryAddProduct(ProductInfo productInfo)
         {
             if (int.TryParse(productInfo.Name.Split(' ')[1], out int productIndex))
@@ -50,13 +78,8 @@ namespace WebRequests
             }
             else
             {
-                var errorMessage = $"Error, Product '{productInfo.Name}' is not a number";
-                Debug.LogError(errorMessage);
-                MessageBroker.Default.Publish(new MessageEventArgs
-                {
-                    Message     = errorMessage,
-                    MessageType = MessageType.Error
-                });
+
+                HandleError($"Error, Product '{productInfo.Name}' is not a number");
             }
         }
 
@@ -76,35 +99,25 @@ namespace WebRequests
             }
             catch (JsonException jsonException)
             {
-                MessageBroker.Default.Publish(new MessageEventArgs
-                {
-                    Message     = "Error reading product data!",
-                    MessageType = MessageType.Error
-                });
-                Debug.LogError(jsonException.Message + "\n" + jsonException.StackTrace);
+                HandleException("Error reading product data!", jsonException);
             }
             catch (Exception exception)
             {
-                MessageBroker.Default.Publish(new MessageEventArgs
-                {
-                    Message     = "Unknown Error!",
-                    MessageType = MessageType.Error
-                });
-                Debug.LogError(exception.Message + "\n" + exception.StackTrace);
+                HandleException("Unknown Error!", exception);
             }
             finally
             {
-                MessageBroker.Default.Publish(new LoadingPanelEventArgs { Enabled = false });
+                ToggleLoadingPanel(false);
                 _loadInProgress = false;
             }
         }
 
         private IEnumerator RequestProductsFromServer(string uri)
         {
-            MessageBroker.Default.Publish(new LoadingPanelEventArgs { Enabled = true });
-        
+            ToggleLoadingPanel(true);
+
             using UnityWebRequest webRequest = UnityWebRequest.Get(uri);
-        
+
             yield return webRequest.SendWebRequest();
 
             if (webRequest.Succeeded())
@@ -114,12 +127,8 @@ namespace WebRequests
             else
             {
                 _loadInProgress = false;
-                Debug.LogError(uri + " " + webRequest.result + ": Error: " + webRequest.error);
-                MessageBroker.Default.Publish(new MessageEventArgs
-                {
-                    Message     = ProductRequestError,
-                    MessageType = MessageType.Error
-                });
+                HandleError("Error getting products from server!", true, $"{uri} - Error {webRequest.result}: {webRequest.error}");
+                ToggleLoadingPanel(false);
             }
         }
 
@@ -128,7 +137,7 @@ namespace WebRequests
             if (!_loadInProgress)
             {
                 _loadInProgress = true;
-                StartCoroutine(RequestProductsFromServer(ApiUri));    
+                StartCoroutine(RequestProductsFromServer(ApiUri));
             }
         }
     }

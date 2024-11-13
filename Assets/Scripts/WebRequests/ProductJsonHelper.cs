@@ -1,11 +1,10 @@
-﻿/*using System;
-using System.Threading.Tasks;
+﻿using System;
 using Entities;
 using Newtonsoft.Json;
 
 namespace WebRequests
 {
-    public class ProductHandler : HttpRequestHandler
+    public class ProductJsonHelper
     {
         [Serializable]
         private class ProductsArray
@@ -13,17 +12,16 @@ namespace WebRequests
             public ProductInfo[] Products;
         }
 
-        public static ProductInfo[] Get()
+        public static ProductInfo[] Deserialize(string productInfoJson)
         {
-            string response      = Get("Products");
-            var    productsArray = JsonConvert.DeserializeObject<ProductsArray>(response);
+            var productsArray = JsonConvert.DeserializeObject<ProductsArray>(productInfoJson);
 
             if (productsArray.Products == null)
             {
                 throw new JsonException("Error parsing products");
             }
-            
+
             return productsArray.Products;
         }
     }
-}*/
+}

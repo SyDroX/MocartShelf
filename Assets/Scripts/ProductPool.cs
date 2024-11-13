@@ -1,6 +1,5 @@
 using Entities;
 using EventData;
-using UI;
 using UniRx;
 using UnityEngine;
 

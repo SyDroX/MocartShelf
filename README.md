@@ -19,4 +19,4 @@ Note: There is a newer version Called [Cysharp/R3](https://github.com/Cysharp/R3
 
 ## WebGLInput - https://github.com/kou-yeung/WebGLInput
 Allows the use of a native keyboard on a mobile device in webGL. This is the best working solution I found (tested on Android, iPhone and iPad).
-In retrospect, I'd probably use an asset for an on-screen keyboard when running on mobile.
+[This](https://discussions.unity.com/t/input-field-not-working-in-webgl-build-in-mobile-browser/717658) is the most comprehensive discussion I found about the matter.

@@ -36,9 +36,19 @@ namespace UI.Product
 
         private void OnPriceChanged(string newValue)
         {
-            if (!decimal.TryParse(newValue, out decimal _))
+            bool success = decimal.TryParse(newValue, out decimal newPrice);
+            
+            if (success && newPrice > 0)
             {
                 _priceInputField.text = _productPrice.ToString(CultureInfo.InvariantCulture);
+            }
+            else
+            {
+                MessageBroker.Default.Publish(new MessageEventArgs
+                {
+                    Message     = "Price must be a positive number.",
+                    MessageType = MessageType.Error
+                });
             }
         }
 

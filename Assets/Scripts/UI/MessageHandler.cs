@@ -74,12 +74,24 @@ namespace UI
         private void OnMessage(MessageEventArgs args)
         {
            _messageText.text = args.Message;
-           _messageBackground.color = args.MessageType switch
+
+           switch (args.MessageType)
            {
-               MessageType.Error => _errorColor,
-               MessageType.Success => _successColor, 
-               _ => throw new ArgumentOutOfRangeException()
-           };
+               case MessageType.Error:
+                   _messageBackground.color = _errorColor;
+
+                   break;
+               case MessageType.Success:
+                   _messageBackground.color = _successColor;
+
+                   break;
+               default:
+                   _messageBackground.color = _errorColor;
+                   const string error = " Unknown message type.";
+                   Debug.LogError(error);
+                   _messageText.text += error;
+                   break;
+           }
 
            StartCoroutine(HandleMessageDisplay(args.MessageType));
         }

@@ -2,7 +2,7 @@
 
 namespace Entities
 {
-    public class Product
+    public class MocratProduct
     {
         public GameObject  GameObject;
         public Rotator     Rotator;

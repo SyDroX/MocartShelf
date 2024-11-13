@@ -6,10 +6,10 @@ namespace UI
 {
     public class ScreenResolutionListener : MonoBehaviour
     {
-        private float       _width;
-        private float       _height;
-        private bool        _isPortrait;
-        
+        private float _width;
+        private float _height;
+        private bool  _isPortrait;
+
         private void Start()
         {
             UpdateCurrentSizes();
@@ -38,7 +38,7 @@ namespace UI
                 }
             }
         }
-        
+
         private void UpdateCurrentSizes()
         {
             _width  = Screen.width;

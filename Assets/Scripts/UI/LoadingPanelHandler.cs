@@ -7,10 +7,10 @@ namespace UI
 {
     public class LoadingPanelHandler : MonoBehaviour
     {
-        private IDisposable   _receiver;
-        
+        private IDisposable _receiver;
+
         [SerializeField] private GameObject _loadingPanelRoot;
-        
+
         private void OnEnable()
         {
             _receiver = MessageBroker.Default.Receive<LoadingPanelEventArgs>().ObserveOnMainThread().Subscribe(OnLoading);

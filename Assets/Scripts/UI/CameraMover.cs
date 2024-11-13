@@ -15,15 +15,15 @@ namespace UI
         [SerializeField] private float     _rotationTimeSeconds = 0.35f;
         [SerializeField] private Vector3   _landscapePosition;
         [SerializeField] private Vector3   _portraitPosition;
-        
+
         private void OnEnable()
         {
             _receiver = MessageBroker.Default.Receive<SelectedProductPositionEventArgs>()
                                      .ObserveOnMainThread()
                                      .Subscribe(OnSelectedPositionChanged);
             _receiver2 = MessageBroker.Default.Receive<OrientationChangedEventArgs>()
-                                     .ObserveOnMainThread()
-                                     .Subscribe(OnOrientationChanged);
+                                      .ObserveOnMainThread()
+                                      .Subscribe(OnOrientationChanged);
         }
 
         private void Start()
@@ -45,7 +45,7 @@ namespace UI
 
         private void OnOrientationChanged(OrientationChangedEventArgs args)
         {
-            SetCameraPosition(args.Width,args.Height);
+            SetCameraPosition(args.Width, args.Height);
         }
 
         private void SetCameraPosition(float width, float height)
@@ -54,7 +54,7 @@ namespace UI
             newPosition.x             = _cameraTransform.position.x;
             _cameraTransform.position = newPosition;
         }
-        
+
         private IEnumerator RotateCameraToTarget(Vector3 targetPosition)
         {
             Vector3    direction       = targetPosition - _cameraTransform.position;
@@ -74,18 +74,18 @@ namespace UI
 
             _cameraTransform.rotation = targetRotation;
         }
-        
+
         private IEnumerator MoveCameraToTarget(float targetX)
         {
             Vector3 initialPosition = _cameraTransform.position;
-            var targetPosition  = new Vector3(targetX, initialPosition.y, initialPosition.z);
+            var     targetPosition  = new Vector3(targetX, initialPosition.y, initialPosition.z);
             var     elapsedTime     = 0f;
-            
+
             while (elapsedTime < _rotationTimeSeconds)
             {
                 _cameraTransform.position =  Vector3.Lerp(initialPosition, targetPosition, elapsedTime / _rotationTimeSeconds);
-                elapsedTime        += Time.deltaTime;
-                
+                elapsedTime               += Time.deltaTime;
+
                 yield return null;
             }
 

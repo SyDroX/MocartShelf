@@ -24,7 +24,7 @@ namespace UI.Product
         {
             _receiver.Dispose();
         }
-        
+
         private void OnDisplayProductInfo(DisplayProductInfoEventArgs args)
         {
             _nameText.text        = args.ProductInfo.Name;

@@ -5,6 +5,6 @@ namespace EventData
 {
     public class LoadedProductsEventArgs
     {
-        public List<Product> LoadedProducts;
+        public List<MocratProduct> LoadedProducts;
     }
 }

@@ -15,8 +15,8 @@ public class ProductLoader : MonoBehaviour
     private const string ProductRequestError = "Error getting products from server!";
     
     private IDisposable   _receiver;
-    private Product[]     _products;
-    private List<Product> _loadedProducts = new();
+    private MocratProduct[]     _products;
+    private List<MocratProduct> _loadedProducts = new();
 
     private void OnEnable()
     {

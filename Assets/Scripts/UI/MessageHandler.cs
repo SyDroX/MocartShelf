@@ -12,7 +12,7 @@ namespace UI
     {
         private IDisposable _receiver;
         private float       _messageHiddenY;
-        
+
         [SerializeField] private RectTransform _messageRoot;
         [SerializeField] private Image         _messageBackground;
         [SerializeField] private TMP_Text      _messageText;
@@ -20,14 +20,14 @@ namespace UI
         [SerializeField] private Color         _successColor;
         [SerializeField] private Color         _errorColor;
         [SerializeField] private float         _displayDurationSeconds = 1f;
-        [SerializeField] private float         _moveTimeSeconds = 1f;
+        [SerializeField] private float         _moveTimeSeconds        = 1f;
         [SerializeField] private float         _messageTargetY;
 
         private void Awake()
         {
             _messageHiddenY = _messageRoot.anchoredPosition.y;
         }
-        
+
         private void OnEnable()
         {
             _closeButton.onClick.AddListener(OnCloseButtonClicked);
@@ -42,11 +42,11 @@ namespace UI
         private IEnumerator HandleMessageDisplay(MessageType messageType)
         {
             yield return MoveMessage(_messageHiddenY, _messageTargetY);
-            
+
             if (messageType != MessageType.Error)
             {
                 yield return new WaitForSeconds(_displayDurationSeconds);
-                
+
                 StartCoroutine(MoveMessage(_messageTargetY, _messageHiddenY));
             }
         }
@@ -73,27 +73,28 @@ namespace UI
 
         private void OnMessage(MessageEventArgs args)
         {
-           _messageText.text = args.Message;
+            _messageText.text = args.Message;
 
-           switch (args.MessageType)
-           {
-               case MessageType.Error:
-                   _messageBackground.color = _errorColor;
+            switch (args.MessageType)
+            {
+                case MessageType.Error:
+                    _messageBackground.color = _errorColor;
 
-                   break;
-               case MessageType.Success:
-                   _messageBackground.color = _successColor;
+                    break;
+                case MessageType.Success:
+                    _messageBackground.color = _successColor;
 
-                   break;
-               default:
-                   _messageBackground.color = _errorColor;
-                   const string error = " Unknown message type.";
-                   Debug.LogError(error);
-                   _messageText.text += error;
-                   break;
-           }
+                    break;
+                default:
+                    _messageBackground.color = _errorColor;
+                    const string error = " Unknown message type.";
+                    Debug.LogError(error);
+                    _messageText.text += error;
 
-           StartCoroutine(HandleMessageDisplay(args.MessageType));
+                    break;
+            }
+
+            StartCoroutine(HandleMessageDisplay(args.MessageType));
         }
     }
 }

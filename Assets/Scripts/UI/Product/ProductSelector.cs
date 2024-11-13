@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Entities;
 using EventData;
 using UniRx;
 using UnityEngine;
@@ -9,9 +10,9 @@ namespace UI.Product
 {
     public class ProductSelector : MonoBehaviour
     {
-        private IDisposable            _receiver;
-        private List<Entities.Product> _products;
-        private int                    _selectedIndex;
+        private IDisposable         _receiver;
+        private List<MocratProduct> _products;
+        private int                 _selectedIndex;
 
         [SerializeField] private Button _leftButton;
         [SerializeField] private Button _rightButton;
@@ -23,7 +24,7 @@ namespace UI.Product
             _editButton.onClick.AddListener(OnEdit);
             _rightButton.onClick.AddListener(OnRight);
             _leftButton.onClick.AddListener(OnLeft);
-            _receiver = MessageBroker.Default.Receive<LoadedProductsEventArgs>().ObserveOnMainThread().Subscribe(OnProductsReceived);
+            _receiver = MessageBroker.Default.Receive<DisplayedProductsEventArgs>().ObserveOnMainThread().Subscribe(OnProductsReceived);
         }
 
         private void OnDisable()
@@ -45,7 +46,10 @@ namespace UI.Product
             _selectedIndex = (_selectedIndex - 1 + _products.Count) % _products.Count;
             MessageBroker.Default.Publish(new DisplayProductInfoEventArgs { ProductInfo = _products[_selectedIndex].ProductInfo });
             ToggleSelectedProduct(true);
-            MessageBroker.Default.Publish(new SelectedProductPositionEventArgs{ Position = _products[_selectedIndex].GameObject.transform.position });
+            MessageBroker.Default.Publish(new SelectedProductPositionEventArgs
+            {
+                Position = _products[_selectedIndex].GameObject.transform.position
+            });
         }
 
         private void OnRight()
@@ -54,7 +58,10 @@ namespace UI.Product
             _selectedIndex = (_selectedIndex + 1) % _products.Count;
             MessageBroker.Default.Publish(new DisplayProductInfoEventArgs { ProductInfo = _products[_selectedIndex].ProductInfo });
             ToggleSelectedProduct(true);
-            MessageBroker.Default.Publish(new SelectedProductPositionEventArgs{ Position = _products[_selectedIndex].GameObject.transform.position });
+            MessageBroker.Default.Publish(new SelectedProductPositionEventArgs
+            {
+                Position = _products[_selectedIndex].GameObject.transform.position
+            });
         }
 
         private void ToggleButtons(bool state)
@@ -72,14 +79,18 @@ namespace UI.Product
             }
         }
 
-        private void OnProductsReceived(LoadedProductsEventArgs args)
+        private void OnProductsReceived(DisplayedProductsEventArgs args)
         {
             ToggleSelectedProduct(false);
-            _products      = new List<Entities.Product>(args.LoadedProducts);
+            _products      = new List<MocratProduct>(args.DisplayedProducts);
             _selectedIndex = 0;
             ToggleButtons(_products.Count != 1);
             ToggleSelectedProduct(true);
             MessageBroker.Default.Publish(new DisplayProductInfoEventArgs { ProductInfo = _products[_selectedIndex].ProductInfo });
+            MessageBroker.Default.Publish(new SelectedProductPositionEventArgs
+            {
+                Position = _products[_selectedIndex].GameObject.transform.position
+            });
         }
     }
 }

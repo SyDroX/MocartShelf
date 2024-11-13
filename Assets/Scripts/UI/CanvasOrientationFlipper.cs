@@ -31,7 +31,7 @@ namespace UI
         {
             _receiver.Dispose();
         }
-        
+
         private void OnOrientationChanged(OrientationChangedEventArgs _)
         {
             Flip();

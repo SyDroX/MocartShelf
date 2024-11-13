@@ -13,8 +13,8 @@ namespace UI.Product
     {
         private IDisposable _receiver;
         private ProductInfo _productInfoToEdit;
-        private decimal _productPrice;
-        
+        private decimal     _productPrice;
+
         [SerializeField] private TMP_InputField _nameInputField;
         [SerializeField] private TMP_InputField _priceInputField;
         [SerializeField] private TMP_InputField _descriptionInputField;
@@ -37,7 +37,7 @@ namespace UI.Product
         private void OnPriceChanged(string newValue)
         {
             bool success = decimal.TryParse(newValue, out decimal newPrice);
-            
+
             if (success && newPrice > 0)
             {
                 _priceInputField.text = _productPrice.ToString(CultureInfo.InvariantCulture);

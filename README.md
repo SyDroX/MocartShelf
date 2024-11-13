@@ -1,6 +1,7 @@
 # MocartShelf
 Playable link: 
-[Link toPlayable](https://sydrox.itch.io/mocart)
+[Link to Playable](https://sydrox.itch.io/mocart)
+[Link to Playble with forced landscape for mobile](https://sydrox.itch.io/mocartforcelandscape)
 Built with Unity version 2022.3.18f1
 
 # Overall design:
@@ -13,15 +14,8 @@ I took the liberty to illustrate the products using fruits and vegetables to giv
 
 ## UniRX - https://github.com/neuecc/UniRx
 Allows reactive event-driven code.
-Note: there is a newer version of it Called R3, but I have yet to use it and thus decided to go with something familiar and reliable.
+Note: There is a newer version Called [Cysharp/R3](https://github.com/Cysharp/R3), but it doesn't state if it has WebGL support thus I opted for something reliable.
 
 ## WebGLInput - https://github.com/kou-yeung/WebGLInput
-For the ability to use a mobile device keyboard in webGL. My prior experience with WebGL was a game jam.
-I was not aware that mobile input for webGL isn't trivial, this is the best solution I found in the time I had left.
-
-## .Net HttpClient
-I opted to use .Net's http client for web requests. This is because it allows better control of API request life-cycle
-In addition, it allows running these requests in async interdependently on Unity's life-cycle and lives outside the coroutines.
-Unfortunately, I had to scrap the whole thing last minute because it uses System.Threading and that isn't supported in WebGL.
-
-
+Allows the use of a native keyboard on a mobile device in webGL. This is the best working solution I found (tested on Android phone, iPhone and iPad).
+In retrospect, I'd probably use an asset for an on-screen keyboard when running on mobile.
